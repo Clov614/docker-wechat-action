@@ -46,7 +46,7 @@ RUN sudo chown app:app WeChatSetup.exe  && sudo chmod a+x WeChatSetup.exe
 # 下载 sdk.zip
 ADD ${SDK_URL} sdk.zip
 
-# 安装必要工具，包括 winbind（提供 ntlm_auth）
+# 安装必要工具，包括 winbind（提供 ntlm_auth）unzip
 RUN sudo apt-get update && sudo apt-get install -y winbind lsof unzip
 
 
