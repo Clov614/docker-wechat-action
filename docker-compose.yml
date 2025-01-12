@@ -1,19 +1,23 @@
-version: '3'
+version: '3.7'
 
 services:
-  wechat_ferry:
+  apiserver:
     image: aimi614/docker_wechat:latest
-    container_name: wechat_ferry
-    ports:
-      - "13389:3389"
-      - "18001:8001"
-      - "18002:8002"
-    volumes:
-      - ./package:/root/package
-      - ./wechat/program:/root/.wine/drive_c/Program Files/Tencent/WeChat
-      - ./wechat/share/icons:/root/.local/share/icons
-      - ./wechat/user_dat:/root/.wine/drive_c/users/root/AppData/Roaming/Tencent/WeChat
-    ulimits:
-      nofile: 8192
+    container_name: wcf-server-v3.9.11.25
+#    restart: unless-stopped
     tty: true
-    stdin_open: true 
+    ports:
+      - "10086:8001"
+      - "10087:8002"
+      - "8080:8080"
+      - "5900:5900"
+    environment:
+      - TEMP_DIR=/home/app/.wine/drive_c/data
+    volumes:
+      - ./data/data:/home/app/.wine/drive_c/data
+      - ./data/wechat:/home/app/.wine/drive_c/users/app/Documents/WeChat Files
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:19088/api/checkLogin" ]
+      interval: 30s
+      timeout: 20s # 一般是20s旁边完成注入
+      retries: 3

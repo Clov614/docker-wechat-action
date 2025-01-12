@@ -1,3 +1,3 @@
 module injector
 
-go 1.21.12
+go 1.22.0
