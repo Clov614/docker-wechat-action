@@ -46,7 +46,11 @@ RUN sudo chown app:app WeChatSetup.exe  && sudo chmod a+x WeChatSetup.exe
 # 下载 sdk.zip
 ADD ${SDK_URL} sdk.zip
 
-# 解压 sdk.zip 并设置号权限
+# 安装必要工具，包括 winbind（提供 ntlm_auth）
+RUN sudo apt-get update && sudo apt-get install -y winbind lsof unzip
+
+
+# 解压 sdk.zip 并设置好权限
 RUN unzip /home/app/.wine/drive_c/sdk.zip -d /home/app/.wine/drive_c/ \
     && rm /home/app/.wine/drive_c/sdk.zip \
     && chown -R app:app /home/app/.wine/drive_c/sdk.dll \
