@@ -1,4 +1,4 @@
-FROM golang:1.22 as builder
+FROM golang:1.22 AS builder
 
 WORKDIR /app
 
@@ -43,14 +43,11 @@ RUN sudo chown app:app injector.exe && sudo chmod a+x injector.exe
 ADD ${WECHAT_URL} WeChatSetup.exe
 RUN sudo chown app:app WeChatSetup.exe  && sudo chmod a+x WeChatSetup.exe
 
-# 安装必要工具，包括 winbind（提供 ntlm_auth）和 unzip
-RUN sudo apt-get update && sudo apt-get install -y winbind lsof unzip
-
 # 复制 sdk 目录中的 .dll 文件到工作目录
-COPY ./sdk/*.dll .
+COPY ./sdk ./
 
 # 设置复制的 .dll 文件的权限
-RUN chown -R app:app /home/app/.wine/drive_c/*.dll
+RUN chown -R app:app ./*.dll
 
 RUN ls -lah
 
