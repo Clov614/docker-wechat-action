@@ -19,11 +19,11 @@ ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5
 ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
 
 # 下载 SDK 压缩包
-RUN curl -o /root/res/sdk.zip ${SDK_URL}
+RUN curl -o /root/res/sdk.zip ${SDK_URL} || exit 1
 
-RUN mkdir ./package
+RUN mkdir ./package || exit 2
 # 下载微信安装包
-RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL}
+RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL} || exit 1
 
 # 安装编译器，编译注入器，完成后清理源码/临时文件/编译器
 RUN dnf install -y go \

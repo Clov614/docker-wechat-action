@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  wechat_ferry:
+    image: aimi614/docker_wechat:latest
+    container_name: wechat_ferry
+    ports:
+      - "13389:3389"
+      - "18001:8001"
+      - "18002:8002"
+    volumes:
+      - ./package:/root/package
+      - ./wechat/program:/root/.wine/drive_c/Program Files/Tencent/WeChat
+      - ./wechat/share/icons:/root/.local/share/icons
+      - ./wechat/user_dat:/root/.wine/drive_c/users/root/AppData/Roaming/Tencent/WeChat
+    ulimits:
+      nofile: 8192
+    tty: true
+    stdin_open: true 
