@@ -41,10 +41,10 @@ elif [ ! -f "$reg_file" ]; then
   done
 fi
 
-# 启动微信
+# 启动注入器，并传递参数 8001 和 true
 echo "Run injector"
-notify-send "WeChatFerry" "正在启动微信"
-run="wine injector.exe 8001 true"
+notify-send "WeChatFerry" "正在启动注入器"
+run="wine 'C:\\injector.exe' 8001 true"
 eval $run
 echo "Injector exit!"
 
