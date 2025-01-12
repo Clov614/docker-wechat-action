@@ -65,8 +65,8 @@ EXPOSE 8002
 
 EXPOSE 8080 5900
 
-COPY cmd.sh /cmd.sh
+COPY launch.sh /launch.sh
 
-RUN sudo chmod +x /cmd.sh
+RUN sudo chmod +x /launch.sh
 
-CMD ["/cmd.sh"]
+CMD ["/launch.sh"]
