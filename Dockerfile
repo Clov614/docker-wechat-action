@@ -13,8 +13,8 @@ COPY ./res ./res
 #COPY ./package/v*.zip ./res
 COPY ./injector ./injector
 
-# WECHAT_URL: 微信安装包下载地址
-ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/WeChatSetup-3.9.11.25.exe
+## WECHAT_URL: 微信安装包下载地址
+#ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/WeChatSetup-3.9.11.25.exe
 ## SDK_URL: WeChatFerry SDK 下载地址
 #ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
 
@@ -27,8 +27,8 @@ COPY ./sdk/* ./res/
 
 
 RUN mkdir ./package
-# 下载微信安装包
-RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL} || exit 1
+## 下载微信安装包
+#RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL} || exit 1
 
 # 安装编译器，编译注入器，完成后清理源码/临时文件/编译器
 RUN dnf install -y go \
