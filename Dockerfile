@@ -18,8 +18,11 @@ ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5
 # SDK_URL: WeChatFerry SDK 下载地址
 ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
 
-# 下载 SDK 压缩包
-RUN curl -o /root/res/sdk.zip ${SDK_URL} || exit 1
+# 下载 SDK 压缩包并解压
+RUN mkdir -p ./res \
+        && curl -o ./res/sdk.zip ${SDK_URL} \
+        && unzip -o ./res/sdk.zip -d ./res \
+        && rm ./res/sdk.zip || exit 1
 
 RUN mkdir ./package || exit 2
 # 下载微信安装包
@@ -38,9 +41,7 @@ RUN dnf install -y go \
 # 部署运行环境
 RUN echo "root:123" | chpasswd \
         && mkdir ~/Desktop \
-        && mv res/*.desktop ~/Desktop \
-        && unzip -o res/sdk.zip -d res \
-        && rm res/sdk.zip
+        && mv res/*.desktop ~/Desktop
 
 # Port for xRDP
 EXPOSE 3389
