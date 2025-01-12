@@ -47,7 +47,9 @@ RUN sudo chown app:app WeChatSetup.exe  && sudo chmod a+x WeChatSetup.exe
 COPY ./sdk ./
 
 # 设置复制的 .dll 文件的权限
-RUN chown -R app:app ./*.dll
+RUN chown -R app:app sdk.dll
+RUN chown -R app:app spy.dll
+RUN chown -R app:app spy_debug.dll
 
 RUN ls -lah
 
