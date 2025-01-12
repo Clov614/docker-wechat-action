@@ -43,19 +43,14 @@ RUN sudo chown app:app injector.exe && sudo chmod a+x injector.exe
 ADD ${WECHAT_URL} WeChatSetup.exe
 RUN sudo chown app:app WeChatSetup.exe  && sudo chmod a+x WeChatSetup.exe
 
-# 下载 sdk.zip
-ADD ${SDK_URL} sdk.zip
-
-# 安装必要工具，包括 winbind（提供 ntlm_auth）unzip
+# 安装必要工具，包括 winbind（提供 ntlm_auth）和 unzip
 RUN sudo apt-get update && sudo apt-get install -y winbind lsof unzip
 
+# 复制 sdk 目录中的 .dll 文件到工作目录
+COPY ./sdk/*.dll .
 
-# 解压 sdk.zip 并设置好权限
-RUN unzip /home/app/.wine/drive_c/sdk.zip -d /home/app/.wine/drive_c/ \
-    && rm /home/app/.wine/drive_c/sdk.zip \
-    && chown -R app:app /home/app/.wine/drive_c/sdk.dll \
-    && chown -R app:app /home/app/.wine/drive_c/spy.dll \
-    && chown -R app:app /home/app/.wine/drive_c/spy_debug.dll
+# 设置复制的 .dll 文件的权限
+RUN chown -R app:app /home/app/.wine/drive_c/*.dll
 
 RUN ls -lah
 
