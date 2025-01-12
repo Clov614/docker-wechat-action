@@ -17,7 +17,7 @@ services:
       - ./data/data:/home/app/.wine/drive_c/data
       - ./data/wechat:/home/app/.wine/drive_c/users/app/Documents/WeChat Files
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:19088/api/checkLogin" ]
+      test: [ "CMD", "nc", "-z", "localhost", "8001" ]
       interval: 30s
       timeout: 20s # 一般是20s旁边完成注入
       retries: 3
