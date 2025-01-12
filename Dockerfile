@@ -15,16 +15,18 @@ COPY ./injector ./injector
 
 # WECHAT_URL: 微信安装包下载地址
 ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/WeChatSetup-3.9.11.25.exe
-# SDK_URL: WeChatFerry SDK 下载地址
-ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
+## SDK_URL: WeChatFerry SDK 下载地址
+#ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
 
-# 下载 SDK 压缩包并解压
-RUN mkdir -p ./res \
-        && curl -o ./res/sdk.zip ${SDK_URL} \
-        && unzip -o ./res/sdk.zip -d ./res \
-        && rm ./res/sdk.zip || exit 1
+## 下载 SDK 压缩包并解压
+#RUN mkdir -p ./res \
+#        && curl -o ./res/sdk.zip ${SDK_URL} \
+#        && unzip -o ./res/sdk.zip -d ./res \
+#        && rm ./res/sdk.zip
+COPY ./sdk/* ./res/
 
-RUN mkdir ./package || exit 2
+
+RUN mkdir ./package
 # 下载微信安装包
 RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL} || exit 1
 

@@ -42,7 +42,7 @@ $ sudo ./docker/docker_run.sh
     -   WeChatFerry命令端口： ``18001`` => ``8001``
     -   WeChatFerry消息端口： ``18002`` => ``8002``
 *   目录挂载：
-    -   安装资料： ``./package`` => ``/root/package`` (仅在第一次安装微信时使用)
+    ~~-   安装资料： ``./package`` => ``/root/package`` (仅在第一次安装微信时使用)~~
     -   程序文件： ``./wechat/program`` => ``/root/.wine/drive_c/Program\ Files/Tencent/WeChat``
     -   图标文件： ``./wechat/share/icons`` => ``/root/.local/share/icons``
     -   用户数据： ``./wechat/user_dat`` => ``/root/.wine/drive_c/users/root/AppData/Roaming/Tencent/WeChat``
