@@ -8,10 +8,23 @@ RUN dnf groupinstall -y "LXDE" \
         && dnf install -y wine \
         && dnf install -y xrdp \
         && dnf clean all
-# 复制资料文件
+# 复制本地资料文件
 COPY ./res ./res
-COPY ./package/v*.zip ./res
+#COPY ./package/v*.zip ./res
 COPY ./injector ./injector
+
+# WECHAT_URL: 微信安装包下载地址
+ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/WeChatSetup-3.9.11.25.exe
+# SDK_URL: WeChatFerry SDK 下载地址
+ARG SDK_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/v39.3.5.zip
+
+# 下载 SDK 压缩包
+RUN curl -o /root/res/sdk.zip ${SDK_URL}
+
+RUN mkdir ./package
+# 下载微信安装包
+RUN curl -o ./package/WeChatSetup.exe ${WECHAT_URL}
+
 # 安装编译器，编译注入器，完成后清理源码/临时文件/编译器
 RUN dnf install -y go \
         && cd ./injector \
@@ -26,8 +39,8 @@ RUN dnf install -y go \
 RUN echo "root:123" | chpasswd \
         && mkdir ~/Desktop \
         && mv res/*.desktop ~/Desktop \
-        && unzip -o res/v*.zip -d res \
-        && rm res/v*.zip
+        && unzip -o res/sdk.zip -d res \
+        && rm res/sdk.zip
 
 # Port for xRDP
 EXPOSE 3389
