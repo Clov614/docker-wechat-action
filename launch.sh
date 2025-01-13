@@ -45,7 +45,7 @@ echo "USER=$USER"
 
 # 启动注入器，并传递参数 8001 和 true
 echo "Run injector"
-notify-send "WeChatFerry" "正在启动注入器"
+echo "WeChatFerry" "正在启动注入器"
 run="wine 'C:\\injector.exe' 8001 true"
 eval $run
 echo "Injector exit!"
