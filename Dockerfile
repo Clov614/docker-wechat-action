@@ -21,11 +21,14 @@ RUN sudo apt-get update && sudo apt-get install -y winbind lsof
 # 验证 ntlm_auth
 RUN ntlm_auth --version
 
-# 清理环境
-RUN sudo rm -rf /tmp/.X0-lock
+# 安装 notify-send
+RUN sudo apt-get install -y libnotify-bin
 
 # install lsof
 RUN sudo apt-get install -y lsof
+
+# 清理环境
+RUN sudo rm -rf /tmp/.X*-lock
 
 # 根据传入参数安装微信和wxhelper.dll
 ARG WECHAT_URL=https://github.com/lich0821/WeChatFerry/releases/download/v39.3.5/WeChatSetup-3.9.11.25.exe

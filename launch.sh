@@ -9,7 +9,7 @@ cd $PWD
 echo "USER=$USER"
 
 # 注册表备份文件
-reg_file="$WINEPREFIX/drive_c/users/$USER/AppData/Roaming/Tencent/WeChat/wechat.reg"
+reg_file="$WINEPREFIX/drive_c/users/app/AppData/Roaming/Tencent/WeChat/wechat.reg"
 
 # 检查注册表，判断微信相关键是否存在
 chk_reg="wine reg query \"HKEY_CURRENT_USER\\Software\\Tencent\\WeChat\""
@@ -29,7 +29,7 @@ elif [ ! -f "$reg_file" ]; then
   echo "备份注册表"
   notify-send "WeChatFerry" "备份注册表"
   paths=( \
-    "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WeChat" \
+    "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WeChat" \
     "HKEY_CURRENT_USER\\Software\\Tencent" \
     "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Classes\\weixin" \
     "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Tencent" \
@@ -38,8 +38,8 @@ elif [ ! -f "$reg_file" ]; then
   for p in ${paths[*]}; do
     bac_reg="wine reg export \"$p\" \"$PWD/reg.tmp\""
     eval $bac_reg
-    cat 1.reg >> $reg_file
-    rm 1.reg
+    cat "$PWD/reg.tmp" >> "$reg_file"
+    rm "$PWD/reg.tmp"
   done
 fi
 
