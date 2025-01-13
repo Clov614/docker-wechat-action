@@ -8,40 +8,40 @@ cd $PWD
 
 echo "USER=$USER"
 
-# 注册表备份文件
-reg_file="$WINEPREFIX/drive_c/users/app/AppData/Roaming/Tencent/WeChat/wechat.reg"
-
-# 检查注册表，判断微信相关键是否存在
-chk_reg="wine reg query \"HKEY_CURRENT_USER\\Software\\Tencent\\WeChat\""
-echo "Check regedit..."
-eval $chk_reg
-if [ $? -ne 0 ]; then
-  if [ ! -f "$reg_file" ]; then
-    echo "请先安装微信!"
-    notify-send "WeChatFerry" "未找到程序，请先运行WeChatSetup安装微信"
-    exit 1
-  fi
-  echo "Init regedit"
-  notify-send "WeChatFerry" "发现注册表备份文件，还原注册表"
-  import_reg="wine regedit /s $reg_file"
-  eval $import_reg
-elif [ ! -f "$reg_file" ]; then
-  echo "备份注册表"
-  notify-send "WeChatFerry" "备份注册表"
-  paths=( \
-    "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WeChat" \
-    "HKEY_CURRENT_USER\\Software\\Tencent" \
-    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Classes\\weixin" \
-    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Tencent" \
-    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\WeChatAppEx" \
-  )
-  for p in ${paths[*]}; do
-    bac_reg="wine reg export \"$p\" \"$PWD/reg.tmp\""
-    eval $bac_reg
-    cat "$PWD/reg.tmp" >> "$reg_file"
-    rm "$PWD/reg.tmp"
-  done
-fi
+## 注册表备份文件
+#reg_file="$WINEPREFIX/drive_c/users/app/AppData/Roaming/Tencent/WeChat/wechat.reg"
+#
+## 检查注册表，判断微信相关键是否存在
+#chk_reg="wine reg query \"HKEY_CURRENT_USER\\Software\\Tencent\\WeChat\""
+#echo "Check regedit..."
+#eval $chk_reg
+#if [ $? -ne 0 ]; then
+#  if [ ! -f "$reg_file" ]; then
+#    echo "请先安装微信!"
+#    notify-send "WeChatFerry" "未找到程序，请先运行WeChatSetup安装微信"
+#    exit 1
+#  fi
+#  echo "Init regedit"
+#  notify-send "WeChatFerry" "发现注册表备份文件，还原注册表"
+#  import_reg="wine regedit /s $reg_file"
+#  eval $import_reg
+#elif [ ! -f "$reg_file" ]; then
+#  echo "备份注册表"
+#  notify-send "WeChatFerry" "备份注册表"
+#  paths=( \
+#    "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WeChat" \
+#    "HKEY_CURRENT_USER\\Software\\Tencent" \
+#    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Classes\\weixin" \
+#    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Tencent" \
+#    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\WeChatAppEx" \
+#  )
+#  for p in ${paths[*]}; do
+#    bac_reg="wine reg export \"$p\" \"$PWD/reg.tmp\""
+#    eval $bac_reg
+#    cat "$PWD/reg.tmp" >> "$reg_file"
+#    rm "$PWD/reg.tmp"
+#  done
+#fi
 
 # 启动注入器，并传递参数 8001 和 true
 echo "Run injector"
