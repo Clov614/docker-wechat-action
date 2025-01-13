@@ -21,8 +21,8 @@ RUN sudo apt-get update && sudo apt-get install -y winbind lsof
 # 验证 ntlm_auth
 RUN ntlm_auth --version
 
-# 安装 notify-send
-RUN sudo apt-get install -y libnotify-bin
+## 安装 notify-send
+#RUN sudo apt-get install -y libnotify-bin
 
 # install lsof
 RUN sudo apt-get install -y lsof
