@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # WeChatFerry微信启动器，注入dll并启动微信
 # XXX: 容器删除并重启后，保存在宿主机的程序和用户数据可以被复用。
 # XXX: 但注册表被重置，导致sdk找不到微信程序。所以需要重新导入注册表。
@@ -6,11 +6,13 @@
 PWD=$(cd `dirname $0`; pwd)
 cd $PWD
 
+echo "USER=$USER"
+
 # 注册表备份文件
-reg_file="/root/.wine/drive_c/users/root/AppData/Roaming/Tencent/WeChat/wechat.reg"
+reg_file="$WINEPREFIX/drive_c/users/$USER/AppData/Roaming/Tencent/WeChat/wechat.reg"
 
 # 检查注册表，判断微信相关键是否存在
-chk_reg="wine reg query 'HKEY_CURRENT_USER\\Software\\Tencent\\WeChat'"
+chk_reg="wine reg query \"HKEY_CURRENT_USER\\Software\\Tencent\\WeChat\""
 echo "Check regedit..."
 eval $chk_reg
 if [ $? -ne 0 ]; then
@@ -27,14 +29,14 @@ elif [ ! -f "$reg_file" ]; then
   echo "备份注册表"
   notify-send "WeChatFerry" "备份注册表"
   paths=( \
-    "HKEY_LOCAL_MACHINE\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\WeChat" \
-    "HKEY_CURRENT_USER\\\\Software\\\\Tencent" \
-    "HKEY_USERS\\\\S-1-5-21-0-0-0-1000\\\\Software\\\\Classes\\\\weixin" \
-    "HKEY_USERS\\\\S-1-5-21-0-0-0-1000\\\\Software\\\\Tencent" \
-    "HKEY_USERS\\\\S-1-5-21-0-0-0-1000\\\\Software\\\\WeChatAppEx" \
+    "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WeChat" \
+    "HKEY_CURRENT_USER\\Software\\Tencent" \
+    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Classes\\weixin" \
+    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\Tencent" \
+    "HKEY_USERS\\S-1-5-21-0-0-0-1000\\Software\\WeChatAppEx" \
   )
   for p in ${paths[*]}; do
-    bac_reg="wine reg export $p 1.reg"
+    bac_reg="wine reg export \"$p\" \"$PWD/reg.tmp\""
     eval $bac_reg
     cat 1.reg >> $reg_file
     rm 1.reg
